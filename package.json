@@ -1,6 +1,6 @@
 {
   "name": "giffer-adapter-skeleton",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "description": "Just a skeleton",
   "main": "index.js",
   "scripts": {
