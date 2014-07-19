@@ -1,0 +1,19 @@
+{
+  "name": "giffer-adapter-skeleton",
+  "version": "0.0.0",
+  "description": "Just a skeleton",
+  "main": "index.js",
+  "scripts": {
+    "test": "tap tests/test-*.js"
+  },
+  "author": "Gordon Mickel <gordon.mickel@gmail.com",
+  "license": "ISC",
+  "dependencies": {
+    "inherits": "^2.0.1",
+    "redwrap": ">=0.0.4",
+    "lodash": ">=2.4.1"
+  },
+  "devDependencies": {
+    "tap": "^0.4.11"
+  }
+}
