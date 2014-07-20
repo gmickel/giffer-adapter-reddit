@@ -7,14 +7,15 @@ var _ = require('lodash');
 inherits(Adapter, EventEmitter);
 
 function Adapter(config) {
-  this.config = config;
+  this.subreddit = config.subreddit || 'funny';
+  this.sorting = config.sort || 'hot';
 }
 
 Adapter.prototype.start = function() {
   this.emit('start');
   var self = this;
   // emits an data event for every page result
-  reddit.r(this.config.subreddit).sort(this.config.sort).all(function(res) {
+  reddit.r(this.subreddit).sort(this.sorting).all(function(res) {
     res.on('data', function(data, res) {
       //console.log(data); //a parsed javascript object of the requested data
       //console.log(res); //the raw response data from Reddit

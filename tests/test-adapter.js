@@ -11,7 +11,7 @@ test('Test functionality of adapter', function(t) {
 });
 
 test('Test start of adapter', function(t) {
-  var instance = new Adapter({'subreddit': 'funny', 'sort': 'hot'});
+  var instance = new Adapter({'subreddit': 'funny', 'sorting': 'hot'});
   instance.start();
   t.end();
 });
