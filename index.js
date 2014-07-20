@@ -2,7 +2,6 @@
 var EventEmitter = require('events').EventEmitter;
 var inherits = require('inherits');
 var reddit = require('redwrap');
-var _ = require('lodash');
 
 inherits(Adapter, EventEmitter);
 
@@ -21,7 +20,7 @@ Adapter.prototype.start = function() {
       //console.log(data); //a parsed javascript object of the requested data
       //console.log(res); //the raw response data from Reddit
       var results = data.data.children;
-      _.forEach(results, function(post) {
+      results.forEach(function(post) {
         console.log(post.data.url);
         self.emit('gif', post.data.url);
       });

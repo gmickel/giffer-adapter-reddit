@@ -10,8 +10,7 @@
   "license": "ISC",
   "dependencies": {
     "inherits": "^2.0.1",
-    "redwrap": ">=0.0.4",
-    "lodash": ">=2.4.1"
+    "redwrap": ">=0.0.4"
   },
   "devDependencies": {
     "tap": "^0.4.11"
