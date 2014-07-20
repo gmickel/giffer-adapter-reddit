@@ -9,6 +9,7 @@ inherits(Adapter, EventEmitter);
 function Adapter(config) {
   this.subreddit = config.subreddit || 'funny';
   this.sorting = config.sort || 'hot';
+  EventEmitter.call(this);
 }
 
 Adapter.prototype.start = function() {
