@@ -1,3 +1,4 @@
 # giffer-adapter-skeleton
 
-This is a skeleton project for giffer adapters.
+Reddit adapter for giffer.
+
