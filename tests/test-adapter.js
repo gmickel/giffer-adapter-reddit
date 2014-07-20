@@ -1,3 +1,4 @@
+'use strict';
 var test = require('tap').test;
 var Adapter = require('../index');
 
@@ -10,7 +11,7 @@ test('Test functionality of adapter', function(t) {
 });
 
 test('Test start of adapter', function(t) {
-  var instance = new Adapter({});
+  var instance = new Adapter({'subreddit': 'funny', 'sort': 'hot'});
   instance.start();
   t.end();
 });
