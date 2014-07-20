@@ -1,7 +1,7 @@
 {
-  "name": "giffer-adapter-skeleton",
-  "version": "0.0.1",
-  "description": "Just a skeleton",
+  "name": "giffer-adapter-reddit",
+  "version": "0.1.0",
+  "description": "Giffer adapter for reddit",
   "main": "index.js",
   "scripts": {
     "test": "tap tests/test-*.js"
