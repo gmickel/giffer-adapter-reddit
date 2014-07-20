@@ -27,7 +27,7 @@ Adapter.prototype.start = function() {
     });
 
     res.on('error', function(e) {
-      console.log('Errors' + e); //outputs any errors
+      throw e;
     });
 
     res.on('end', function() {
