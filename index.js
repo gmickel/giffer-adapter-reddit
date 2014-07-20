@@ -21,7 +21,6 @@ Adapter.prototype.start = function() {
       //console.log(res); //the raw response data from Reddit
       var results = data.data.children;
       results.forEach(function(post) {
-        console.log(post.data.url);
         self.emit('gif', post.data.url);
       });
     });
