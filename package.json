@@ -1,6 +1,6 @@
 {
   "name": "giffer-adapter-reddit",
-  "version": "0.3.0",
+  "version": "0.4.0",
   "description": "Giffer adapter for reddit",
   "main": "index.js",
   "scripts": {
@@ -10,7 +10,7 @@
   "license": "ISC",
   "dependencies": {
     "inherits": "^2.0.1",
-    "redwrap": ">=0.0.4"
+    "snoocore": "^1.2.0"
   },
   "devDependencies": {
     "tap": "^0.4.11"
