@@ -47,15 +47,16 @@ Adapter.prototype.stop = function() {
   // stop grabbing gifs
 };
 
-/* TODO: implement attempts, error handling*/
+/* TODO: implement attempts, error handling, permanent token / refresh token */
 Adapter.prototype.getItems = function(item_count, after, attempt) {
   var self = this;
   item_count = typeof item_count !== 'undefined' ? item_count : 0;
   after = typeof after !== 'undefined' ? after : '';
   attempt = typeof attempt !== 'undefined' ? attempt : 1;
 
-  reddit.r.$subreddit.hot.get({
+  reddit.raw('http://www.reddit.com/r/$subreddit/$sorting/.json').get({
     $subreddit: self.subreddit,
+    $sorting: 'new',
     limit: self.limit,
     after: after
   }).then(function(response) {
