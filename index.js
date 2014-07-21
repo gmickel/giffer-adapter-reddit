@@ -21,7 +21,9 @@ Adapter.prototype.start = function() {
       //console.log(res); //the raw response data from Reddit
       var results = data.data.children;
       results.forEach(function(post) {
-        self.emit('gif', post.data.url);
+        if (post.data.url.match(/(https?:\/\/.*\.(?:png|jpg|gif|jpeg))/i)) {
+          self.emit('gif', post.data.url);
+        }
       });
     });
 
