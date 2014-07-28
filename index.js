@@ -43,6 +43,7 @@ Adapter.prototype.start = function() {
 
 
 Adapter.prototype.stop = function() {
+  // TODO: implement stop
   this.emit('stop');
   // stop grabbing gifs
 };
@@ -63,7 +64,8 @@ Adapter.prototype.getItems = function(item_count, after, attempt) {
     var results = response.data.children;
     item_count += results.length;
     results.forEach(function(post, index) {
-      if (post.data.url.match(/(https?:\/\/.*\.(?:png|jpg|gif|jpeg))/i)) {
+      // if (post.data.url.match(/(https?:\/\/.*\.(?:png|jpg|gif|jpeg))/i)) {
+      if (post.data.url.match(/(https?:\/\/.*\.gif)/i)) {
         self.emit('gif', post.data.url); // TODO: send correct image type
       }
       if (index == results.length - 1) {
@@ -82,7 +84,6 @@ Adapter.prototype.getItems = function(item_count, after, attempt) {
   }, function(error) {
     console.log(error);
   });
-
-}
+};
 
 module.exports = Adapter;
