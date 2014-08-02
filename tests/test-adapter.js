@@ -12,7 +12,6 @@ test('Test functionality of adapter', function(t) {
 
 test('Test start of adapter', function(t) {
   var instance = new Adapter({
-    'userAgent': 'giffer-bot',
     'throttle': 1000,
     'subreddit': 'funny',
     'sorting': 'hot',

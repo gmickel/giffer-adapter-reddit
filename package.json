@@ -10,6 +10,8 @@
   "license": "ISC",
   "dependencies": {
     "inherits": "^2.0.1",
+    "raw.js": "^0.2.0",
+    "reddit-stream": "^1.0.8",
     "snoocore": "^1.2.0"
   },
   "devDependencies": {

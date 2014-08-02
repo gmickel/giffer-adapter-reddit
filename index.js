@@ -1,38 +1,22 @@
 'use strict';
 var EventEmitter = require('events').EventEmitter;
 var inherits = require('inherits');
+var rawjs = require('raw.js');
 var redditConfig = require('./config');
-//var reddit = require('redwrap');
-var Snoocore = require('snoocore');
-
-var reddit = new Snoocore({
-  userAgent: this.userAgent,
-  throttle: this.throttle
-});
-
-// Authenticate with Reddit
-var authData = Snoocore.oauth.getAuthData('script', {
-  consumerKey: redditConfig.reddit.consumerKey,
-  consumerSecret: redditConfig.reddit.consumerSecret,
-  username: redditConfig.reddit.username,
-  password: redditConfig.reddit.password,
-  scope: 'read' // scopes you want to use!
-});
-
-reddit.auth(authData);
-
+var reddit = new rawjs(redditConfig.reddit.userAgent);
+reddit.setupOAuth2(redditConfig.reddit.consumerKey, redditConfig.reddit.consumerSecret);
 
 inherits(Adapter, EventEmitter);
 
 function Adapter(config) {
   this.subreddit = config.subreddit || 'funny';
-  this.sorting = config.sort || 'hot';
+  this.sorting = config.sorting || 'hot';
   this.limit = config.limit || 100;
   this.max_attempts = config.max_attempts || 5;
   this.poll_interval = config.poll_interval || 5000;
-  this.userAgent = config.userAgent;
   this.throttle = config.throttle;
   this.items_to_get = config.items_to_get || 1000;
+  this.running = true;
   EventEmitter.call(this);
 }
 
@@ -43,9 +27,8 @@ Adapter.prototype.start = function() {
 
 
 Adapter.prototype.stop = function() {
-  // TODO: implement stop
   this.emit('stop');
-  // stop grabbing gifs
+  this.running = false;
 };
 
 /* TODO: implement attempts, error handling, permanent token / refresh token */
@@ -55,34 +38,36 @@ Adapter.prototype.getItems = function(item_count, after, attempt) {
   after = typeof after !== 'undefined' ? after : '';
   attempt = typeof attempt !== 'undefined' ? attempt : 1;
 
-  reddit.raw('http://www.reddit.com/r/$subreddit/$sorting/.json').get({
-    $subreddit: self.subreddit,
-    $sorting: 'new',
-    limit: self.limit,
-    after: after
-  }).then(function(response) {
-    var results = response.data.children;
-    item_count += results.length;
-    results.forEach(function(post, index) {
-      // if (post.data.url.match(/(https?:\/\/.*\.(?:png|jpg|gif|jpeg))/i)) {
-      if (post.data.url.match(/(https?:\/\/.*\.gif)/i)) {
-        self.emit('gif', post.data.url); // TODO: send correct image type
-      }
-      if (index == results.length - 1) {
-        if (item_count < self.items_to_get) {
-          setTimeout(function() {
-            self.getItems(item_count, post.data.name);
-          }, self.poll_interval);
-        } else {
-          // max items reached, start from the first page again
-          setTimeout(function() {
-            self.getItems();
-          }, self.poll_interval);
+  reddit[self.sorting]({
+    'r': self.subreddit,
+    'limit': 100,
+    'after': after
+  }, function(err, response) {
+    if (err) {
+      console.log('Error: ' + err);
+    } else {
+      var results = response.children;
+      item_count += results.length;
+      results.forEach(function(post, index) {
+        if (post.data.url.match(/(https?:\/\/.*\.(gif|jpg|jpeg|png))/i)) {
+          self.emit('gif', post.data.url);
         }
-      }
-    });
-  }, function(error) {
-    console.log(error);
+        if (index == results.length - 1) {
+          if (item_count < self.items_to_get && self.running) {
+            setTimeout(function() {
+              self.getItems(item_count, post.data.name);
+            }, self.poll_interval);
+          } else {
+            // max items reached, start from the first page again
+            if (self.running) {
+              setTimeout(function() {
+                self.getItems();
+              }, self.poll_interval);
+            }
+          }
+        }
+      });
+    }
   });
 };
 
