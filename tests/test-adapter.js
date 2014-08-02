@@ -18,7 +18,8 @@ test('Test start of adapter', function(t) {
     'limit': 100,
     'max_attempts': 5,
     'poll_interval': 2000,
-    'items_to_get': 1000
+    'items_to_get': 1000,
+    'image_types': 'gif'
   });
   instance.start();
   instance.on('gif', function(url) {

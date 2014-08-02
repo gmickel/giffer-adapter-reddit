@@ -16,6 +16,8 @@ function Adapter(config) {
   this.poll_interval = config.poll_interval || 5000;
   this.items_to_get = config.items_to_get || 1000;
   this.running = true;
+  this.image_types = config.image_types || '(gif|jpg|jpeg|png)';
+  this.re = new RegExp('https?:\/\/.*\.' + this.image_types + '', 'i');
   EventEmitter.call(this);
 }
 
@@ -48,7 +50,7 @@ Adapter.prototype.getItems = function(item_count, after, attempt) {
       var results = response.children;
       item_count += results.length;
       results.forEach(function(post, index) {
-        if (post.data.url.match(/(https?:\/\/.*\.(gif|jpg|jpeg|png))/i)) {
+        if (post.data.url.match(self.re)) {
           self.emit('gif', post.data.url);
         }
         if (index == results.length - 1) {
