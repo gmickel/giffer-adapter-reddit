@@ -14,7 +14,6 @@ function Adapter(config) {
   this.limit = config.limit || 100;
   this.max_attempts = config.max_attempts || 5;
   this.poll_interval = config.poll_interval || 5000;
-  this.throttle = config.throttle;
   this.items_to_get = config.items_to_get || 1000;
   this.running = true;
   EventEmitter.call(this);
