@@ -12,13 +12,12 @@ test('Test functionality of adapter', function(t) {
 
 test('Test start of adapter', function(t) {
   var instance = new Adapter({
-    'throttle': 1000,
-    'subreddit': 'funny',
+    'subreddit': 'funnygifs',
     'sorting': 'hot',
     'limit': 100,
     'max_attempts': 5,
-    'poll_interval': 2000,
-    'items_to_get': 1000,
+    'poll_interval': 5000,
+    'items_to_get': 2000,
     'image_types': 'gif'
   });
   instance.start();
