@@ -15,7 +15,7 @@ inherits(Adapter, EventEmitter);
 
 function Adapter(args) {
   this.config = args.config || redditConfig.reddit;
-  this.reddit = new rawjs(redditConfig.userAgent);
+  this.reddit = new rawjs(this.config.userAgent);
   this.reddit.setupOAuth2(this.config.consumerKey, this.config.consumerSecret);
   this.subreddit = args.subreddit || 'funny';
   this.sorting = args.sorting || 'hot';
