@@ -4,20 +4,21 @@ var inherits = require('inherits');
 var rawjs = require('raw.js');
 var redditConfig = require('./config');
 var reddit = new rawjs(redditConfig.reddit.userAgent);
-reddit.setupOAuth2(redditConfig.reddit.consumerKey, redditConfig.reddit.consumerSecret);
 
 inherits(Adapter, EventEmitter);
 
-function Adapter(config) {
-  this.subreddit = config.subreddit || 'funny';
-  this.sorting = config.sorting || 'hot';
-  this.limit = config.limit || 100;
-  this.max_attempts = config.max_attempts || 5;
-  this.poll_interval = config.poll_interval || 5000;
-  this.items_to_get = config.items_to_get || 1000;
+function Adapter(args) {
+  this.config = args.config || redditConfig.reddit;
+  this.subreddit = args.subreddit || 'funny';
+  this.sorting = args.sorting || 'hot';
+  this.limit = args.limit || 100;
+  this.max_attempts = args.max_attempts || 5;
+  this.poll_interval = args.poll_interval || 5000;
+  this.items_to_get = args.items_to_get || 1000;
   this.running = true;
-  this.image_types = config.image_types || '(gif|jpg|jpeg|png)';
+  this.image_types = args.image_types || '(gif|jpg|jpeg|png)';
   this.re = new RegExp('https?:\/\/.*\\.' + this.image_types + '', 'i');
+  reddit.setupOAuth2(this.config.consumerKey, this.config.consumerSecret);
   EventEmitter.call(this);
 }
 
