@@ -1,6 +1,6 @@
 {
   "name": "giffer-adapter-reddit",
-  "version": "0.8.1",
+  "version": "0.8.2",
   "description": "Giffer adapter for reddit",
   "main": "index.js",
   "scripts": {
