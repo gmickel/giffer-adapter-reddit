@@ -2,13 +2,21 @@
 var EventEmitter = require('events').EventEmitter;
 var inherits = require('inherits');
 var rawjs = require('raw.js');
-var redditConfig = require('./config');
-var reddit = new rawjs(redditConfig.reddit.userAgent);
+
+try {
+  var redditConfig = require('./config');
+} catch (e) {
+  if (e.code !== 'MODULE_NOT_FOUND') {
+    console.log('you need to create a config.js file');
+  }
+}
 
 inherits(Adapter, EventEmitter);
 
 function Adapter(args) {
   this.config = args.config || redditConfig.reddit;
+  this.reddit = new rawjs(redditConfig.userAgent);
+  this.reddit.setupOAuth2(this.config.consumerKey, this.config.consumerSecret);
   this.subreddit = args.subreddit || 'funny';
   this.sorting = args.sorting || 'hot';
   this.limit = args.limit || 100;
@@ -18,7 +26,6 @@ function Adapter(args) {
   this.running = true;
   this.image_types = args.image_types || '(gif|jpg|jpeg|png)';
   this.re = new RegExp('https?:\/\/.*\\.' + this.image_types + '', 'i');
-  reddit.setupOAuth2(this.config.consumerKey, this.config.consumerSecret);
   EventEmitter.call(this);
 }
 
@@ -40,7 +47,7 @@ Adapter.prototype.getItems = function(item_count, after, attempt) {
   after = typeof after !== 'undefined' ? after : '';
   attempt = typeof attempt !== 'undefined' ? attempt : 1;
 
-  reddit[self.sorting]({
+  self.reddit[self.sorting]({
     'r': self.subreddit,
     'limit': 100,
     'after': after
