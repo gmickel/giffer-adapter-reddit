@@ -59,7 +59,7 @@ Adapter.prototype.getItems = function(item_count, after, attempt) {
       item_count += results.length;
       results.forEach(function(post, index) {
         if (post.data.url.match(self.re)) {
-          self.emit('gif', post.data.url);
+          self.emit('gif', post.data.url, { origin: 'http://www.reddit.com' + post.data.permalink });
         }
         if (index == results.length - 1) {
           if (item_count < self.items_to_get && self.running) {

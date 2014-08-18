@@ -21,10 +21,13 @@ test('Test start of adapter', function(t) {
     'image_types': 'gif'
   });
   instance.start();
-  instance.on('gif', function(url) {
+  instance.on('gif', function(url, metadata) {
     console.log('url', url);
-    instance.stop();
+    console.log('origin', metadata.origin)
     t.ok(url);
+    t.ok(metadata);
+    t.ok(metadata.origin);
+    instance.stop();
     t.end();
   });
   t.end();
